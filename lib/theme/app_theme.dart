@@ -1,293 +1,477 @@
+
+// import 'package:flutter/material.dart';
+
+// class AppTheme {
+//   // Colors
+//   static const Color primaryColor = Color(0xFF1E88E5);
+//   static const Color secondaryColor = Color(0xFFFF6D00);
+//   static const Color accentColor = Color(0xFF26A69A);
+//   static const Color backgroundColor = Color(0xFFF5F7FA);
+//   static const Color cardColor = Colors.white;
+//   static const Color errorColor = Color(0xFFD32F2F);
+//   static const Color successColor = Color(0xFF388E3C);
+//   static const Color textColor = Color(0xFF2D3748);
+//   static const Color mutedTextColor = Color(0xFF718096);
+
+//   // Text Styles
+//   static const TextStyle headingStyle = TextStyle(
+//     fontSize: 24,
+//     fontWeight: FontWeight.bold,
+//     color: textColor,
+//     fontFamily: 'Poppins',
+//   );
+
+//   static const TextStyle subheadingStyle = TextStyle(
+//     fontSize: 18,
+//     fontWeight: FontWeight.w600,
+//     color: textColor,
+//     fontFamily: 'Poppins',
+//   );
+
+//   static const TextStyle bodyStyle = TextStyle(
+//     fontSize: 14,
+//     color: mutedTextColor,
+//     fontFamily: 'Poppins',
+//   );
+
+//   static const TextStyle buttonTextStyle = TextStyle(
+//     fontSize: 16,
+//     fontWeight: FontWeight.w600,
+//     color: Colors.white,
+//     fontFamily: 'Poppins',
+//   );
+
+//   static const TextStyle captionStyle = TextStyle(
+//     fontSize: 12,
+//     color: mutedTextColor,
+//     fontFamily: 'Poppins',
+//   );
+
+//   // Theme Data
+//   static ThemeData lightTheme = ThemeData(
+//     primaryColor: primaryColor,
+//     scaffoldBackgroundColor: backgroundColor,
+//     fontFamily: 'Poppins',
+//     colorScheme: ColorScheme.light(
+//       primary: primaryColor,
+//       secondary: secondaryColor,
+//       tertiary: accentColor,
+//       error: errorColor,
+//       background: backgroundColor,
+//       surface: cardColor,
+//     ),
+//     appBarTheme: const AppBarTheme(
+//       elevation: 0,
+//       centerTitle: true,
+//       backgroundColor: primaryColor,
+//       foregroundColor: Colors.white,
+//       titleTextStyle: TextStyle(
+//         fontFamily: 'Poppins',
+//         fontSize: 20,
+//         fontWeight: FontWeight.w600,
+//         color: Colors.white,
+//       ),
+//       iconTheme: IconThemeData(color: Colors.white),
+//     ),
+//     cardTheme: CardTheme(
+//       elevation: 4,
+//       margin: const EdgeInsets.all(8),
+//       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+//       color: cardColor,
+//       shadowColor: Colors.grey.shade200,
+//     ),
+//     inputDecorationTheme: InputDecorationTheme(
+//       filled: true,
+//       fillColor: Colors.white,
+//       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+//       border: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(12),
+//         borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+//       ),
+//       enabledBorder: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(12),
+//         borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+//       ),
+//       focusedBorder: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(12),
+//         borderSide: BorderSide(color: primaryColor, width: 2),
+//       ),
+//       errorBorder: OutlineInputBorder(
+//         borderRadius: BorderRadius.circular(12),
+//         borderSide: BorderSide(color: errorColor, width: 1),
+//       ),
+//       labelStyle: TextStyle(color: Colors.grey.shade700),
+//       hintStyle: TextStyle(color: Colors.grey.shade400),
+//     ),
+//     elevatedButtonTheme: ElevatedButtonThemeData(
+//       style: ElevatedButton.styleFrom(
+//         backgroundColor: primaryColor,
+//         foregroundColor: Colors.white,
+//         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(12),
+//         ),
+//         elevation: 4,
+//         textStyle: buttonTextStyle,
+//       ),
+//     ),
+//     textButtonTheme: TextButtonThemeData(
+//       style: TextButton.styleFrom(
+//         foregroundColor: primaryColor,
+//         textStyle: const TextStyle(
+//           fontFamily: 'Poppins',
+//           fontSize: 14,
+//           fontWeight: FontWeight.w600,
+//         ),
+//       ),
+//     ),
+//     outlinedButtonTheme: OutlinedButtonThemeData(
+//       style: OutlinedButton.styleFrom(
+//         foregroundColor: primaryColor,
+//         side: BorderSide(color: primaryColor, width: 1.5),
+//         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+//         shape: RoundedRectangleBorder(
+//           borderRadius: BorderRadius.circular(12),
+//         ),
+//         textStyle: const TextStyle(
+//           fontFamily: 'Poppins',
+//           fontSize: 16,
+//           fontWeight: FontWeight.w600,
+//         ),
+//       ),
+//     ),
+//     tabBarTheme: TabBarTheme(
+//       labelColor: primaryColor,
+//       unselectedLabelColor: Colors.grey.shade600,
+//       indicatorColor: primaryColor,
+//       labelStyle: const TextStyle(
+//         fontFamily: 'Poppins',
+//         fontSize: 16,
+//         fontWeight: FontWeight.w600,
+//       ),
+//       unselectedLabelStyle: const TextStyle(
+//         fontFamily: 'Poppins',
+//         fontSize: 16,
+//         fontWeight: FontWeight.w500,
+//       ),
+//     ),
+//     bottomNavigationBarTheme: BottomNavigationBarThemeData(
+//       backgroundColor: Colors.white,
+//       selectedItemColor: primaryColor,
+//       unselectedItemColor: Colors.grey.shade600,
+//       selectedLabelStyle: const TextStyle(
+//         fontFamily: 'Poppins',
+//         fontSize: 12,
+//         fontWeight: FontWeight.w500,
+//       ),
+//       unselectedLabelStyle: const TextStyle(
+//         fontFamily: 'Poppins',
+//         fontSize: 12,
+//       ),
+//       type: BottomNavigationBarType.fixed,
+//       elevation: 8,
+//     ),
+//     snackBarTheme: SnackBarThemeData(
+//       behavior: SnackBarBehavior.floating,
+//       backgroundColor: primaryColor,
+//       contentTextStyle: const TextStyle(
+//         fontFamily: 'Poppins',
+//         fontSize: 14,
+//         color: Colors.white,
+//       ),
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(12),
+//       ),
+//     ),
+//     dialogTheme: DialogTheme(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(16),
+//       ),
+//       titleTextStyle: headingStyle.copyWith(color: textColor),
+//       contentTextStyle: bodyStyle,
+//     ),
+//     checkboxTheme: CheckboxThemeData(
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(4),
+//       ),
+//       fillColor: MaterialStateProperty.all(primaryColor),
+//     ),
+//     radioTheme: RadioThemeData(
+//       fillColor: MaterialStateProperty.all(primaryColor),
+//     ),
+//     switchTheme: SwitchThemeData(
+//       thumbColor: MaterialStateProperty.all(primaryColor),
+//       trackColor: MaterialStateProperty.all(primaryColor.withOpacity(0.5)),
+//     ),
+//   );
+// }
+
+
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 class AppTheme {
-    // Vibrant Color scheme
-    static const Color primaryColor = Color(0xFF6C5CE7);      // Rich Purple
-    static const Color secondaryColor = Color(0xFF00D2D3);    // Turquoise
-    static const Color accentColor = Color(0xFFFF9F43);       // Orange
-    static const Color backgroundColor = Color(0xFFF8F9FE);   // Light Background
-    static const Color cardColor = Colors.white;
-    static const Color errorColor = Color(0xFFFF6B6B);        // Coral Red
-    static const Color successColor = Color(0xFF2ECC71);      // Emerald Green
-    static const Color textPrimaryColor = Color(0xFF2D3436);
-    static const Color textSecondaryColor = Color(0xFF636E72);
+  // Colors
+  static const Color primaryColor = Color(0xFF1E88E5);
+  static const Color secondaryColor = Color(0xFFFF6D00);
+  static const Color accentColor = Color(0xFF26A69A);
+  static const Color backgroundColor = Color(0xFFF5F7FA);
+  static const Color cardColor = Colors.white;
+  static const Color errorColor = Color(0xFFD32F2F);
+  static const Color successColor = Color(0xFF388E3C);
+  static const Color textColor = Color(0xFF2D3748);
+  static const Color mutedTextColor = Color(0xFF718096);
 
-    // Gradients
-    static const LinearGradient primaryGradient = LinearGradient(
-        colors: [Color(0xFF6C5CE7), Color(0xFF00D2D3), Color(0xFFFF9F43)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-    );
+  // Text Styles
+  static const TextStyle headingStyle = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: textColor,
+    fontFamily: 'Poppins',
+  );
 
-    static const LinearGradient accentGradient = LinearGradient(
-        colors: [Color(0xFFFF9F43), Color(0xFFFF6B6B), Color(0xFF2ECC71)],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-    );
+  static const TextStyle subheadingStyle = TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w600,
+    color: textColor,
+    fontFamily: 'Poppins',
+  );
 
-    // Animation Durations
-    static const Duration defaultDuration = Duration(milliseconds: 300);
-    static const Duration longDuration = Duration(milliseconds: 500);
+  static const TextStyle bodyStyle = TextStyle(
+    fontSize: 14,
+    color: mutedTextColor,
+    fontFamily: 'Poppins',
+  );
 
-    // Animation Curves
-    static const Curve defaultCurve = Curves.easeInOut;
-    static const Curve bounceCurve = Curves.elasticOut;
+  static const TextStyle buttonTextStyle = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.white,
+    fontFamily: 'Poppins',
+  );
 
-    // Padding and Margins
-    static const EdgeInsets defaultPadding = EdgeInsets.symmetric(horizontal: 20, vertical: 16);
-    static const EdgeInsets cardMargin = EdgeInsets.symmetric(vertical: 8, horizontal: 16);
+  static const TextStyle captionStyle = TextStyle(
+    fontSize: 12,
+    color: mutedTextColor,
+    fontFamily: 'Poppins',
+  );
 
-    // Text Styles
-    static const TextStyle titleTextStyle = TextStyle(
-        color: textPrimaryColor,
+  // Theme Data
+  static ThemeData lightTheme = ThemeData(
+    primaryColor: primaryColor,
+    scaffoldBackgroundColor: backgroundColor,
+    fontFamily: 'Poppins',
+    colorScheme: ColorScheme.light(
+      primary: primaryColor,
+      secondary: secondaryColor,
+      tertiary: accentColor,
+      error: errorColor,
+      background: backgroundColor,
+      surface: cardColor,
+    ),
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: primaryColor,
+      foregroundColor: Colors.white,
+      titleTextStyle: TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 20,
         fontWeight: FontWeight.w600,
-    );
-
-    static const TextStyle bodyTextStyle = TextStyle(
-        color: textSecondaryColor,
+        color: Colors.white,
+      ),
+      iconTheme: IconThemeData(color: Colors.white),
+    ),
+    cardTheme: CardTheme(
+      elevation: 4,
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      color: cardColor,
+      shadowColor: Colors.grey.shade200,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: primaryColor, width: 2),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: errorColor, width: 1),
+      ),
+      labelStyle: TextStyle(color: Colors.grey.shade700),
+      hintStyle: TextStyle(color: Colors.grey.shade400),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primaryColor,
+        foregroundColor: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        elevation: 4,
+        textStyle: buttonTextStyle,
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: primaryColor,
+        textStyle: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: primaryColor,
+        side: BorderSide(color: primaryColor, width: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        textStyle: const TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    ),
+    tabBarTheme: TabBarTheme(
+      labelColor: primaryColor,
+      unselectedLabelColor: Colors.grey.shade600,
+      indicatorColor: primaryColor,
+      labelStyle: const TextStyle(
+        fontFamily: 'Poppins',
         fontSize: 16,
-    );
-
-    static ThemeData getTheme() {
-        return ThemeData(
-            useMaterial3: true,
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: primaryColor,
-                background: backgroundColor,
-                secondary: secondaryColor,
-            ),
-            
-            // AppBar theme with gradient
-            appBarTheme: AppBarTheme(
-                elevation: 0,
-                centerTitle: true,
-                backgroundColor: cardColor,
-                foregroundColor: textPrimaryColor,
-                titleTextStyle: titleTextStyle,
-                systemOverlayStyle: null,
-                scrolledUnderElevation: 2,
-                shadowColor: primaryColor.withOpacity(0.2),
-            ),
-            
-            // Enhanced Card theme
-            cardTheme: CardTheme(
-                elevation: 4,
-                shadowColor: primaryColor.withOpacity(0.2),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                ),
-                color: cardColor,
-                margin: cardMargin,
-            ),
-            
-            // Enhanced Input decoration
-            inputDecorationTheme: InputDecorationTheme(
-                filled: true,
-                fillColor: backgroundColor,
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
-                ),
-                enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(color: primaryColor.withOpacity(0.1)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: primaryColor, width: 2),
-                ),
-                errorBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: const BorderSide(color: errorColor),
-                ),
-                contentPadding: defaultPadding,
-                prefixIconColor: primaryColor,
-                suffixIconColor: primaryColor,
-                hoverColor: primaryColor.withOpacity(0.05),
-            ),
-            
-            // Enhanced Button theme
-            elevatedButtonTheme: ElevatedButtonThemeData(
-                style: ElevatedButton.styleFrom(
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                    ),
-                    backgroundColor: primaryColor,
-                    foregroundColor: Colors.white,
-                    shadowColor: primaryColor.withOpacity(0.3),
-                ).copyWith(
-                    elevation: MaterialStateProperty.resolveWith<double>(
-                        (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.hovered)) return 4;
-                            if (states.contains(MaterialState.pressed)) return 0;
-                            return 2;
-                        },
-                    ),
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                        (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.pressed)) {
-                                return Colors.white.withOpacity(0.2);
-                            }
-                            return null;
-                        },
-                    ),
-                ),
-            ),
-            
-            // Enhanced ListTile theme
-            listTileTheme: ListTileThemeData(
-                contentPadding: defaultPadding,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                ),
-                tileColor: cardColor,
-                selectedTileColor: primaryColor.withOpacity(0.1),
-                horizontalTitleGap: 16,
-            ),
-            
-            // Drawer theme with gradient
-            drawerTheme: DrawerThemeData(
-                backgroundColor: cardColor,
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(24),
-                        bottomRight: Radius.circular(24),
-                    ),
-                ),
-                elevation: 10,
-                shadowColor: primaryColor.withOpacity(0.2),
-            ),
-        );
-    }
-
-    // Custom Animations and Effects
-    static Widget addShimmer(Widget child) {
-        return ShaderMask(
-            shaderCallback: (Rect bounds) {
-                return const LinearGradient(
-                    colors: [Colors.white, Colors.white54, Colors.white],
-                    stops: [0.0, 0.5, 1.0],
-                    begin: Alignment(-1.0, -0.5),
-                    end: Alignment(1.0, 0.5),
-                    tileMode: TileMode.clamp,
-                ).createShader(bounds);
-            },
-            child: child,
-        );
-    }
-
-    // Enhanced Card Decoration
-    static BoxDecoration get cardDecoration => BoxDecoration(
-        color: cardColor,
+        fontWeight: FontWeight.w600,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+      ),
+    ),
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      backgroundColor: Colors.white,
+      selectedItemColor: primaryColor,
+      unselectedItemColor: Colors.grey.shade600,
+      selectedLabelStyle: const TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+      unselectedLabelStyle: const TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 12,
+      ),
+      type: BottomNavigationBarType.fixed,
+      elevation: 8,
+    ),
+    snackBarTheme: SnackBarThemeData(
+      behavior: SnackBarBehavior.floating,
+      backgroundColor: primaryColor,
+      contentTextStyle: const TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 14,
+        color: Colors.white,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+    dialogTheme: DialogTheme(
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-            BoxShadow(
-                color: primaryColor.withOpacity(0.1),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-            ),
-            BoxShadow(
-                color: primaryColor.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-            ),
-        ],
-    );
-
-    // Gradient Card Decoration
-    static BoxDecoration get gradientCardDecoration => BoxDecoration(
-        gradient: primaryGradient,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-            BoxShadow(
-                color: primaryColor.withOpacity(0.3),
-                blurRadius: 20,
-                offset: const Offset(0, 8),
-            ),
-        ],
-    );
-
-    // Custom Animation Builders
-    static Widget fadeInTransition({
-        required Widget child,
-        Duration duration = const Duration(milliseconds: 300),
-    }) {
-        return TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.0, end: 1.0),
-            duration: duration,
-            curve: Curves.easeOut,
-            builder: (context, value, child) {
-                return Opacity(
-                    opacity: value,
-                    child: Transform.translate(
-                        offset: Offset(0, 20 * (1 - value)),
-                        child: child,
-                    ),
-                );
-            },
-            child: child,
-        );
-    }
-
-    static Widget scaleTransition({
-        required Widget child,
-        Duration duration = const Duration(milliseconds: 300),
-    }) {
-        return TweenAnimationBuilder<double>(
-            tween: Tween(begin: 0.8, end: 1.0),
-            duration: duration,
-            curve: Curves.easeOut,
-            builder: (context, value, child) {
-                return Transform.scale(
-                    scale: value,
-                    child: child,
-                );
-            },
-            child: child,
-        );
-    }
+      ),
+      titleTextStyle: headingStyle.copyWith(color: textColor),
+      contentTextStyle: bodyStyle,
+    ),
+    checkboxTheme: CheckboxThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      fillColor: MaterialStateProperty.all(primaryColor),
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.all(primaryColor),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.all(primaryColor),
+      trackColor: MaterialStateProperty.all(primaryColor.withOpacity(0.5)),
+    ),
+  );
 }
 
-// Custom Animated Container for Cards
-class AnimatedCard extends StatelessWidget {
-    final Widget child;
-    final VoidCallback? onTap;
-    final bool useGradient;
+// Reusable Hoverable Button with Shower Bubbles
+class HoverableButton extends StatefulWidget {
+  final String text;
+  final VoidCallback onPressed;
 
-    const AnimatedCard({
-        Key? key,
-        required this.child,
-        this.onTap,
-        this.useGradient = false,
-    }) : super(key: key);
+  const HoverableButton({Key? key, required this.text, required this.onPressed}) : super(key: key);
 
-    @override
-    Widget build(BuildContext context) {
-        return TweenAnimationBuilder<double>(
-            tween: Tween(begin: 1.0, end: 1.0),
-            duration: AppTheme.defaultDuration,
-            builder: (context, scale, child) {
-                return Transform.scale(
-                    scale: scale,
-                    child: Container(
-                        decoration: useGradient 
-                                ? AppTheme.gradientCardDecoration 
-                                : AppTheme.cardDecoration,
-                        child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                                onTap: onTap,
-                                borderRadius: BorderRadius.circular(16),
-                                child: child,
-                            ),
-                        ),
+  @override
+  _HoverableButtonState createState() => _HoverableButtonState();
+}
+
+class _HoverableButtonState extends State<HoverableButton> {
+  bool _isHovered = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return MouseRegion(
+      onEnter: (_) => setState(() => _isHovered = true),
+      onExit: (_) => setState(() => _isHovered = false),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          if (_isHovered)
+            ...List.generate(
+              10,
+              (index) {
+                final random = Random();
+                return Positioned(
+                  top: random.nextDouble() * 50 - 25,
+                  left: random.nextDouble() * 100 - 50,
+                  child: Container(
+                    width: random.nextDouble() * 10 + 5,
+                    height: random.nextDouble() * 10 + 5,
+                    decoration: BoxDecoration(
+                      color: AppTheme.primaryColor.withOpacity(0.5),
+                      shape: BoxShape.circle,
                     ),
+                  ),
                 );
-            },
-            child: child,
-        );
-    }
+              },
+            ),
+          ElevatedButton(
+            onPressed: widget.onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppTheme.primaryColor,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            child: Text(
+              widget.text,
+              style: AppTheme.buttonTextStyle,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
