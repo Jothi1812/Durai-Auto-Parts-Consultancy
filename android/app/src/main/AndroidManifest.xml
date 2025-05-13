@@ -1,7 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Internet permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:label="invoice_autoparts"
+        android:label="Durai Auto Parts"
         android:name="${applicationName}"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

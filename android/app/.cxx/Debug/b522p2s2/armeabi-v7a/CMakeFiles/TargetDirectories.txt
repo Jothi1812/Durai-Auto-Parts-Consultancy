@@ -1,0 +1,2 @@
+D:/Flutter/invoice_autoparts/android/app/.cxx/Debug/b522p2s2/armeabi-v7a/CMakeFiles/edit_cache.dir
+D:/Flutter/invoice_autoparts/android/app/.cxx/Debug/b522p2s2/armeabi-v7a/CMakeFiles/rebuild_cache.dir

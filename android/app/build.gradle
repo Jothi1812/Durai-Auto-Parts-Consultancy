@@ -24,8 +24,7 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.example.invoice_autoparts"
-    compileSdk flutter.compileSdkVersion
-    // compileSdkVersion 34
+    compileSdk 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -36,7 +35,7 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '1.9.0'
+        jvmTarget = '1.8'
     }
 
     sourceSets {

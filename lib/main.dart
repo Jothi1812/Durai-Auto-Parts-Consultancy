@@ -3558,7 +3558,7 @@ class ReportsScreen extends StatelessWidget {
     title: AxisTitle(text: 'Income (₹)'),
   ),
   tooltipBehavior: TooltipBehavior(enable: true),
-  series: <ChartSeries>[
+  series: <CartesianSeries>[
     ColumnSeries<SalesData, String>(
       dataSource: dailyIncome, 
       xValueMapper: (SalesData sales, _) => sales.label,
@@ -3591,7 +3591,7 @@ class ReportsScreen extends StatelessWidget {
                 title: AxisTitle(text: 'Income (₹)'),
               ),
               tooltipBehavior: TooltipBehavior(enable: true),
-              series: <ChartSeries>[
+              series: <CartesianSeries>[
                 ColumnSeries<SalesData, String>(
                   dataSource: monthlyIncome,
                   xValueMapper: (SalesData sales, _) => sales.label,
