@@ -9,14 +9,14 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:path_provider/path_provider.dart'; // For getApplicationDocumentsDirectory
-import 'dart:io'; // For File
+import 'package:path_provider/path_provider.dart'; 
+import 'dart:io'; 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:shimmer/shimmer.dart';
 import 'dart:math';
 
 class ApiConfig {
-  static const String baseUrl = 'http://localhost:3000';
+  static const String baseUrl = 'http://192.168.31.77:3000';
 }
 
 void main() async {
@@ -34,7 +34,6 @@ void main() async {
   );
 }
 
-// Models
 class Customer {
   final String id;
   final String name;
@@ -94,7 +93,7 @@ class Product {
     description: json['description'] ?? '',
     price: double.parse(json['price'].toString()),
     stock: int.parse(json['stock'].toString()),
-    category: json['category'] ?? '', // Ensure category is parsed
+    category: json['category'] ?? '', 
   );
 }
 
@@ -213,8 +212,8 @@ class AuthProvider with ChangeNotifier {
       Uri.parse('${ApiConfig.baseUrl}/api/login'),
       headers: {'Content-Type': 'application/json'},
       body: json.encode({
-        'email': email, // Use the email parameter here
-        'password': password, // Use the password parameter here
+        'email': email, 
+        'password': password, 
       }),
     );
 
@@ -636,7 +635,7 @@ class _CustomerSearchDialogState extends State<CustomerSearchDialog> {
   @override
   void initState() {
     super.initState();
-    filteredCustomers = [];
+    filteredCustomers = widget.customers;
   }
 
   @override
@@ -649,7 +648,7 @@ class _CustomerSearchDialogState extends State<CustomerSearchDialog> {
     setState(() {
       if (query.trim().isEmpty) {
         // If the query is empty, show no customers
-        filteredCustomers = [];
+        filteredCustomers = widget.customers;
       } else {
         // Convert query to lowercase for case-insensitive search
         final lowerCaseQuery = query.toLowerCase();
@@ -774,6 +773,7 @@ class _ProductSearchDialogState extends State<ProductSearchDialog> {
   final TextEditingController _quantityController = TextEditingController();
   Product? selectedProduct;
   int quantity = 1;
+  String? errorMessage;
 
   @override
   void initState() {
@@ -863,6 +863,7 @@ class _ProductSearchDialogState extends State<ProductSearchDialog> {
                           onTap: () {
                             setState(() {
                               selectedProduct = product;
+                               errorMessage = null;
                             });
                           },
                           selected: selectedProduct?.id == product.id,
@@ -873,6 +874,15 @@ class _ProductSearchDialogState extends State<ProductSearchDialog> {
             ),
             if (selectedProduct != null) ...[
               const SizedBox(height: 16),
+              // Show error message at the top
+              if (errorMessage != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    errorMessage!,
+                    style: const TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                  ),
+                ),
               Text(
                 'Selected: ${selectedProduct!.name}',
                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -890,6 +900,7 @@ class _ProductSearchDialogState extends State<ProductSearchDialog> {
                 onChanged: (value) {
                   setState(() {
                     quantity = int.tryParse(value) ?? 1;
+                    errorMessage = null; // Clear error on change
                   });
                 },
               ),
@@ -911,13 +922,9 @@ class _ProductSearchDialogState extends State<ProductSearchDialog> {
                 widget.onProductSelected(selectedProduct!, quantity);
                 Navigator.of(context).pop();
               } else {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                        'Invalid quantity. Must be between 1 and ${selectedProduct!.stock}'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
+                setState(() {
+                  errorMessage = 'Insufficient stock. Only ${selectedProduct!.stock} available.';
+                });
               }
             },
             child: const Text('Add to Invoice'),
@@ -1415,6 +1422,7 @@ class MainNavigationScreen extends StatefulWidget {
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
   int _selectedIndex = 0;
+  int? _drawerSelectedIndex; // null means no drawer screen selected
 
   @override
   void initState() {
@@ -1439,147 +1447,203 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _drawerSelectedIndex = null; // Clear drawer selection
     });
   }
 
+  void _onDrawerItemTapped(int index) {
+    setState(() {
+      _drawerSelectedIndex = index;
+    });
+    Navigator.of(context).pop(); // Close the drawer
+  }
+
   @override
-Widget build(BuildContext context) {
-  final auth = Provider.of<AuthProvider>(context);
+  Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
 
-  final List<Widget> _widgetOptions = <Widget>[
-    InvoiceScreen(),
-    AddCustomerScreen(),
-    AddProductScreen(),
-    ProductListScreen(),
-    LowStockAlertScreen(),
-    ReportsScreen(),
-  ];
+    // Main screens for bottom navigation
+    final List<Widget> _widgetOptions = <Widget>[
+      InvoiceScreen(),
+      AddCustomerScreen(),
+      AddProductScreen(),
+      ProductListScreen(),
+    ];
+    // Drawer screens
+    final List<Widget> _drawerScreens = <Widget>[
+      LowStockAlertScreen(),
+      ReportsScreen(),
+    ];
 
-  return Scaffold(
-    appBar: AppBar(
-      title: Shimmer.fromColors(
-        baseColor: Colors.white,
-        highlightColor: Colors.yellow,
-        child: const Text(
-          'Durai Auto Parts Shop',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+    return Scaffold(
+      appBar: AppBar(
+        title: Shimmer.fromColors(
+          baseColor: Colors.white,
+          highlightColor: Colors.yellow,
+          child: const Text(
+            'Durai Auto Parts Shop',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              auth.logout();
+            },
+          ),
+        ],
       ),
-      actions: [
-        IconButton(
-          icon: const Icon(Icons.logout),
-          onPressed: () {
-            auth.logout();
-          },
-        ),
-      ],
-    ),
-    body: Stack(
-      children: [
-        // Shower-like effect as a background
-        Positioned.fill(
-          child: Stack(
-            children: List.generate(100, (index) {
-              final random = Random();
-              final left = random.nextDouble() * MediaQuery.of(context).size.width;
-              final sizeParticle = random.nextDouble() * 5 + 2; // Random size between 2 and 7
-              final color = Colors.primaries[random.nextInt(Colors.primaries.length)];
-
-              return AnimatedPositioned(
-                duration: const Duration(seconds: 5),
-                curve: Curves.easeInOut,
-                top: random.nextDouble() * MediaQuery.of(context).size.height,
-                left: left,
-                child: Container(
-                  width: sizeParticle,
-                  height: sizeParticle,
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.7),
-                    shape: BoxShape.circle,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Icon(Icons.account_circle, size: 48, color: Colors.white),
+                  SizedBox(height: 8),
+                  Text(
+                    'Durai Auto Parts',
+                    style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                ),
-              );
-            }),
-          ),
-        ),
-        // Main content
-        SafeArea(
-          child: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.blue[50]!,
-                  Colors.white,
+                  Text(
+                    'Inventory & Reports',
+                    style: TextStyle(color: Colors.white70, fontSize: 14),
+                  ),
                 ],
               ),
             ),
-            child: _widgetOptions.elementAt(_selectedIndex),
-          ),
-        ),
-      ],
-    ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -5),
+            ListTile(
+              leading: Icon(Icons.warning, color: Colors.red),
+              title: Text('Low Stock'),
+              onTap: () => _onDrawerItemTapped(0),
+            ),
+            ListTile(
+              leading: Icon(Icons.bar_chart, color: Colors.blue),
+              title: Text('Reports'),
+              onTap: () => _onDrawerItemTapped(1),
+            ),
+            Divider(),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Back to Main'),
+              onTap: () {
+                setState(() {
+                  _drawerSelectedIndex = null;
+                  _selectedIndex = 0;
+                });
+                Navigator.of(context).pop();
+              },
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          child: BottomNavigationBar(
-            items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.receipt),
-                label: 'Invoices',
-                backgroundColor: Theme.of(context).primaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.person_add),
-                label: 'New Customer',
-                backgroundColor: Theme.of(context).colorScheme.secondary,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.add_box),
-                label: 'New Product',
-                backgroundColor: Theme.of(context).colorScheme.tertiary,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.inventory),
-                label: 'Products List',
-                backgroundColor: Colors.purple,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.warning),
-                label: 'Low Stock',
-                backgroundColor: Colors.red,
-              ),
-              BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'Reports',
-          ),
-            ],
-            currentIndex: _selectedIndex,
-            selectedItemColor: Colors.white,
-            unselectedItemColor: Colors.white70,
-            showUnselectedLabels: true,
-            type: BottomNavigationBarType.shifting,
-            elevation: 8,
-            onTap: _onItemTapped,
-          ),
-        ),
       ),
+      body: Stack(
+        children: [
+          // Shower-like effect as a background
+          Positioned.fill(
+            child: Stack(
+              children: List.generate(100, (index) {
+                final random = Random();
+                final left = random.nextDouble() * MediaQuery.of(context).size.width;
+                final sizeParticle = random.nextDouble() * 5 + 2; // Random size between 2 and 7
+                final color = Colors.primaries[random.nextInt(Colors.primaries.length)];
+
+                return AnimatedPositioned(
+                  duration: const Duration(seconds: 5),
+                  curve: Curves.easeInOut,
+                  top: random.nextDouble() * MediaQuery.of(context).size.height,
+                  left: left,
+                  child: Container(
+                    width: sizeParticle,
+                    height: sizeParticle,
+                    decoration: BoxDecoration(
+                      color: color.withOpacity(0.7),
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                );
+              }),
+            ),
+          ),
+          // Main content
+          SafeArea(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.blue[50]!,
+                    Colors.white,
+                  ],
+                ),
+              ),
+              child: _drawerSelectedIndex == null
+                  ? _widgetOptions.elementAt(_selectedIndex)
+                  : _drawerScreens.elementAt(_drawerSelectedIndex!),
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: _drawerSelectedIndex == null
+          ? Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, -5),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+                child: BottomNavigationBar(
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.receipt),
+                      label: 'Invoices',
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.person_add),
+                      label: 'New Customer',
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.add_box),
+                      label: 'New Product',
+                      backgroundColor: Theme.of(context).colorScheme.tertiary,
+                    ),
+                    BottomNavigationBarItem(
+                      icon: const Icon(Icons.inventory),
+                      label: 'Products List',
+                      backgroundColor: Colors.purple,
+                    ),
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: Colors.white,
+                  unselectedItemColor: Colors.white70,
+                  showUnselectedLabels: true,
+                  type: BottomNavigationBarType.shifting,
+                  elevation: 8,
+                  onTap: _onItemTapped,
+                ),
+              ),
+            )
+          : null,
     );
   }
 }
@@ -1598,7 +1662,7 @@ Widget build(BuildContext context) {
 //   Future<void> _fetchData() async {
 //     final auth = Provider.of<AuthProvider>(context, listen: false);
 //     final invoiceState = Provider.of<InvoiceState>(context, listen: false);
-
+    
 //     if (auth.token != null) {
 //       await invoiceState.fetchProducts(auth.token!);
 //       await invoiceState.fetchCustomers(auth.token!);
@@ -1615,7 +1679,7 @@ Widget build(BuildContext context) {
 //   @override
 //   Widget build(BuildContext context) {
 //     final auth = Provider.of<AuthProvider>(context);
-
+    
 //     final List<Widget> _widgetOptions = <Widget>[
 //       InvoiceScreen(),
 //       AddCustomerScreen(),
@@ -1707,125 +1771,6 @@ Widget build(BuildContext context) {
 //     );
 //   }
 // }
-// class _MainNavigationScreenState extends State<MainNavigationScreen> {
-//   int _selectedIndex = 0;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     // Fetch data when the screen is initialized
-//     WidgetsBinding.instance.addPostFrameCallback((_) {
-//       _fetchData();
-//     });
-//   }
-
-//   Future<void> _fetchData() async {
-//     final auth = Provider.of<AuthProvider>(context, listen: false);
-//     final invoiceState = Provider.of<InvoiceState>(context, listen: false);
-    
-//     if (auth.token != null) {
-//       await invoiceState.fetchProducts(auth.token!);
-//       await invoiceState.fetchCustomers(auth.token!);
-//       await invoiceState.fetchInvoices(auth.token!);
-//     }
-//   }
-
-//   void _onItemTapped(int index) {
-//     setState(() {
-//       _selectedIndex = index;
-//     });
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final auth = Provider.of<AuthProvider>(context);
-    
-//     final List<Widget> _widgetOptions = <Widget>[
-//       InvoiceScreen(),
-//       AddCustomerScreen(),
-//       AddProductScreen(),
-//       ProductListScreen(),
-//     ];
-    
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Durai Auto Parts Shop'),
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.logout),
-//             onPressed: () {
-//               auth.logout();
-//             },
-//           ),
-//         ],
-//       ),
-//       body: SafeArea(
-//         child: Container(
-//           decoration: BoxDecoration(
-//             gradient: LinearGradient(
-//               begin: Alignment.topCenter,
-//               end: Alignment.bottomCenter,
-//               colors: [
-//                 Colors.blue[50]!,
-//                 Colors.white,
-//               ],
-//             ),
-//           ),
-//           child: _widgetOptions.elementAt(_selectedIndex),
-//         ),
-//       ),
-//       bottomNavigationBar: Container(
-//         decoration: BoxDecoration(
-//           boxShadow: [
-//             BoxShadow(
-//               color: Colors.black.withOpacity(0.1),
-//               blurRadius: 10,
-//               offset: const Offset(0, -5),
-//             ),
-//           ],
-//         ),
-//         child: ClipRRect(
-//           borderRadius: const BorderRadius.only(
-//             topLeft: Radius.circular(20),
-//             topRight: Radius.circular(20),
-//           ),
-//           child: BottomNavigationBar(
-//             items: <BottomNavigationBarItem>[
-//               BottomNavigationBarItem(
-//                 icon: const Icon(Icons.receipt),
-//                 label: 'Invoices',
-//                 backgroundColor: Theme.of(context).primaryColor,
-//               ),
-//               BottomNavigationBarItem(
-//                 icon: const Icon(Icons.person_add),
-//                 label: 'New Customer',
-//                 backgroundColor: Theme.of(context).colorScheme.secondary,
-//               ),
-//               BottomNavigationBarItem(
-//                 icon: const Icon(Icons.add_box),
-//                 label: 'New Product',
-//                 backgroundColor: Theme.of(context).colorScheme.tertiary,
-//               ),
-//               BottomNavigationBarItem(
-//                 icon: const Icon(Icons.inventory),
-//                 label: 'Products List',
-//                 backgroundColor: Colors.purple,
-//               ),
-//             ],
-//             currentIndex: _selectedIndex,
-//             selectedItemColor: Colors.white,
-//             unselectedItemColor: Colors.white70,
-//             showUnselectedLabels: true,
-//             type: BottomNavigationBarType.shifting,
-//             elevation: 8,
-//             onTap: _onItemTapped,
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class InvoiceScreen extends StatefulWidget {
   @override
   _InvoiceScreenState createState() => _InvoiceScreenState();
@@ -3626,8 +3571,7 @@ class ReportsScreen extends StatelessWidget {
   }
 
   // Helper method to build a styled card for the most bought product
- // Helper method to build a styled card for the most bought product
-Widget _buildMostBoughtProductCard(ProductSalesData productData) {
+ Widget _buildMostBoughtProductCard(ProductSalesData productData) {
   return Card(
     elevation: 6,
     shape: RoundedRectangleBorder(
